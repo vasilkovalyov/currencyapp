@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      currentItem: "UAH",
+      currentItem: "UAH", 
       list: this.$store.state.currencyList
     };
   },

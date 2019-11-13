@@ -3,7 +3,8 @@
     <div class="section-inner-holder d-flex align-items-center">
       <div class="container">
         <currency-panel-list></currency-panel-list>
-        <span
+        {{this.$store.state.array}}
+        <!-- <span
           class="current-currency-msg d-block text-center mb-3"
         >Selected coin: {{getSelectedCoin()}}</span>
         <form-input-currency @inputValue="inputValue = $event"></form-input-currency>
@@ -11,8 +12,8 @@
         <type-currency-list></type-currency-list>
         <span
           class="result-msg d-block text-center mb-3"
-        >{{inputValue}} {{getSelectedCoin()}} will be {{showResult}} in {{getCurrentCurrency()}}</span>
-      </div>
+        >{{inputValue}} will be in </span> -->
+      </div> 
     </div>
   </section>
 </template>
@@ -28,8 +29,10 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("loadCoint");
-    console.log(this.$store.state.currentCryptoCurrency);
+      this.$store.dispatch("loadCoint");
+    // console.log(this.$store.state.currencyCryptoList)
+    console.log(this.$store.state.array)
+
   },
   methods: {
     getSelectedCoin() {
@@ -41,8 +44,6 @@ export default {
   },
   computed: {
     showResult() {
-      const id = this.$store.state.currentCryptoCurrency.id;
-      const targetCard = this.$store.state.coinObjects[id];
     }
   },
   components: {
