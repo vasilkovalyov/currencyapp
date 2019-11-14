@@ -5,10 +5,11 @@ import "./plugins/bootstrap-vue";
 import App from "./App.vue";
 import store from "./store";
 import VueResource from "vue-resource";
+import Vuelidate from "vuelidate"
 
 Vue.config.productionTip = false;
 
-Vue.use(VueResource);
+Vue.use(VueResource, Vuelidate);
 
 new Vue({
   store,

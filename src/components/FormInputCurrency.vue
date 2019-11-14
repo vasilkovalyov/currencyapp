@@ -3,7 +3,7 @@
     <div class="form-group d-sm-flex align-items-baseline">
       <label for="input-currency">Volume:</label>
       <input
-        type="text"
+        type="number"
         id="input-currency"
         class="input-currency"
         v-model="inputValue"
@@ -13,10 +13,12 @@
   </div>
 </template>
 <script>
+
 export default {
   data() {
     return {
-      inputValue: ""
+      inputValue: "",
+      text: ''
     };
   },
   methods: {
@@ -32,6 +34,11 @@ export default {
   label {
     color: $green;
     margin-right: 15px;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 
   .input-currency {

@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import CurrencyPanelList from "./components/CurrencyPanelList";
 import FormInputCurrency from "./components/FormInputCurrency";
 import TypeCurrencyList from "./components/TypeCurrencysList";
@@ -32,8 +30,7 @@ export default {
 
   async mounted() {
     this.$store.dispatch("loadCoins");
-    this.$store.dispatch("setSelectedTypeCurrency")
-    
+    this.$store.dispatch("setSelectedTypeCurrency");
   },
 
   computed: {

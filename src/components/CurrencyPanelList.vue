@@ -13,20 +13,10 @@
 import CurrencyCardItem from "./CurrencyCardItem";
 
 export default {
-  data() {
-    return {
-      
-    };
-  },
-
   computed: {
     getCryptoInfoArray() {
       return this.$store.getters.getCryptoInfo
     }
-  },
-
-  mounted() {
-    
   },
 
   components: {

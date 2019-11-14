@@ -25,12 +25,6 @@ export default {
       coinObject: Object
     }
   },
-  
-  data() {
-    return {
-      
-    }
-  },
 
   methods: {
     selectTypeCoin() {
@@ -46,6 +40,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 @import "../scss/style";
 

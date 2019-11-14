@@ -30,10 +30,6 @@ export default {
     getCurrencysTypes() {
       return this.$store.getters.getCurrencysType;
     }
-  },
-
-  mounted() {
-
   }
 };
 </script>
