@@ -22,30 +22,66 @@ export default new Vuex.Store({
         name: "XRP"
       }
     ],
-    apiKey: "f31c79dae7dab78f7b62b8a6b44900eb431a6e2ea8a5cc8e2fe70fddc9bec46c",
     convertToCoinsList: ["UAH", "USD", "RUB"],
-    currentCryptoCoin: {},
-    currentConverCoint: "UAH",
-    cryptoCoins: [],
-    array: []
+    currentConverCoin: 'UAH',
+    coins: [],
+    selectedCoin: {}
   },
+
   mutations: {
-    SET_COINTS(store, payload) {
-      store.array = payload;
+    setCurrentCoinConvert(store, payload) {
+      store.currentConverCoin = payload
+    },
+
+    setCoins(state, payload) {
+      state.coins = payload;
+    },
+
+    selectCoin(state, payload) {
+      state.selectedCoin = payload;
+    },
+
+    selectConvertCoin(state, payload) {
+      state.currentConverCoin = payload;
     }
   },
   actions: {
-    loadCoint({commit}) {
-
-        fetch(
-          "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD,UAH,RUB"
-        )
-          .then(response => response.json())
-          .then(data => {
-            commit('SET_COINTS', data)
-          });
+    async loadCoins(state) {
+      const resCoin = await fetch("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD,UAH,RUB");
+      const coins = await resCoin.json();
+      this.coins = coins;
+      state.commit('setCoins', coins);
+      state.commit('selectCoin', 'BTC')
+    },
+    setSelectedTypeCurrency(state) {
+      state.commit('selectConvertCoin', 'UAH')
     }
   },
-  modules: {},
-  
+  getters: {
+    getCryptoInfo(state) {
+      return state.currencyCryptoList;
+    },
+    getCurrencysType(state) {
+      return state.convertToCoinsList;
+    },
+    getAllCoins(state) {
+      return state.coins
+    },
+    getSelectedCoin(state) {
+      return state.selectedCoin
+    },
+    getCurrentConvertCurrency(state) {
+      return state.currentConverCoin;
+    },
+    getCurrentCurrencyValue(state) {
+      let currentConverCurrency = state.currentConverCoin;
+      const arrayCoins = state.coins[state.selectedCoin]
+
+      for(let i in arrayCoins) {
+        if(i == currentConverCurrency) {
+          return arrayCoins[i]
+        }
+      }
+    }
+  }
 });

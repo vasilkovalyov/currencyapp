@@ -1,6 +1,6 @@
 <template>
   <div class="form-input-currency d-flex justify-content-center">
-    <div class="form-group d-flex align-items-baseline">
+    <div class="form-group d-sm-flex align-items-baseline">
       <label for="input-currency">Volume:</label>
       <input
         type="text"
@@ -38,8 +38,11 @@ export default {
     background-color: transparent;
     border: 1px solid $blue;
     padding: 5px;
-    width: 300px;
     color: $light-blue;
+
+    @media (min-width: 480px) {
+      width: 300px;
+    }
   }
 }
 </style>

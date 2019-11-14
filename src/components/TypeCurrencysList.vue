@@ -2,7 +2,7 @@
   <ul class="type-currency-list text-uppercase list-unstyled d-flex justify-content-center">
     <li
       class="type-currency mx-4 p-2"
-      v-for="item in list"
+      v-for="item in getCurrencysTypes"
       :key="item"
       :class="{ active: currentItem === item }"
       @click="select(item)"
@@ -15,15 +15,25 @@
 export default {
   data() {
     return {
-      currentItem: "UAH", 
-      list: this.$store.state.currencyList
+      currentItem: "UAH"
     };
   },
+
   methods: {
     select(value) {
       this.currentItem = value;
-      this.$store.commit("setCurrentCurrency", this.currentItem);
+      this.$store.commit("setCurrentCoinConvert", this.currentItem);
     }
+  },
+
+  computed: {
+    getCurrencysTypes() {
+      return this.$store.getters.getCurrencysType;
+    }
+  },
+
+  mounted() {
+
   }
 };
 </script>
