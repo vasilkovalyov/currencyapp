@@ -4,7 +4,7 @@
       class="type-currency mx-4 p-2"
       v-for="item in getCurrencysType"
       :key="item"
-      :class="{ active: currentItem === item }"
+      :class="{ active: currentConverCoin() === item }"
       @click="select(item)"
     >
       <span>{{ item }}</span>
@@ -12,24 +12,20 @@
   </ul>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
-  data() {
-    return {
-      currentItem: this.$store.state.currentConverCoin
-    };
-  },
-
   methods: {
+    ...mapMutations(["setCurrentCoinConvert"]),
+    ...mapState(["currentConverCoin"]),
+
     select(value) {
-      this.currentItem = value;
-      this.$store.commit("setCurrentCoinConvert", this.currentItem);
+      this.setCurrentCoinConvert(value);
     }
   },
 
   computed: {
-    ...mapGetters(['getCurrencysType'])
+    ...mapGetters(["getCurrencysType"])
   }
 };
 </script>

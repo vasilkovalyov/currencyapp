@@ -23,16 +23,17 @@ export default new Vuex.Store({
       }
     ],
     convertToCoinsList: ["USD", "UAH", "RUB"],
-    currentConverCoin: 'UAH',
+    currentConverCoin: "UAH",
     coins: [],
+    name: "MAX",
     selectedCoin: {},
     convertResult: 0,
-    inputValue: ''
+    inputValue: ""
   },
 
   mutations: {
     setCurrentCoinConvert(store, payload) {
-      store.currentConverCoin = payload
+      store.currentConverCoin = payload;
     },
 
     setCoins(state, payload) {
@@ -54,20 +55,31 @@ export default new Vuex.Store({
 
   actions: {
     loadCoins(store) {
-      const arrayConvertCurrency = store.state.convertToCoinsList.join(',');
-      const arrayCryptoCoins = store.state.currencyCryptoList.map((item) => item.name).join(',');
+      const arrayConvertCurrency = store.state.convertToCoinsList.join(",");
+      const arrayCryptoCoins = store.state.currencyCryptoList
+        .map(item => item.name)
+        .join(",");
 
-      Vue.axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms='+arrayCryptoCoins+'&tsyms='+arrayConvertCurrency)
+      Vue.axios
+        .get(
+          "https://min-api.cryptocompare.com/data/pricemulti?fsyms=" +
+            arrayCryptoCoins +
+            "&tsyms=" +
+            arrayConvertCurrency
+        )
         .then(response => response.data)
         .then(data => {
-          store.commit('setCoins', data);
-          const selectedObject = {coinName:Object.keys(store.getters.getAllCoins)[0], coinValue:Object.values                                     (store.getters.getAllCoins)[0]}
-          store.commit('selectCoin', selectedObject);
+          store.commit("setCoins", data);
+          const selectedObject = {
+            coinName: Object.keys(store.getters.getAllCoins)[0],
+            coinValue: Object.values(store.getters.getAllCoins)[0]
+          };
+          store.commit("selectCoin", selectedObject);
         })
         .catch(error => error);
     },
     setSelectedTypeCurrency(state) {
-      state.commit('selectConvertCoin', 'UAH')
+      state.commit("selectConvertCoin", "UAH");
     }
   },
   getters: {
@@ -78,21 +90,21 @@ export default new Vuex.Store({
       return state.convertToCoinsList;
     },
     getAllCoins(state) {
-      return state.coins
+      return state.coins;
     },
     getSelectedCoin(state) {
-      return state.selectedCoin
+      return state.selectedCoin;
     },
     getCurrentConvertCurrency(state) {
       return state.currentConverCoin;
     },
     getCurrentCurrencyValue(state) {
       let currentConverCurrency = state.currentConverCoin;
-      const arrayCoins = state.coins[state.selectedCoin]
+      const arrayCoins = state.coins[state.selectedCoin];
 
-      for(let i in arrayCoins) {
-        if(i == currentConverCurrency) {
-          return arrayCoins[i]
+      for (let i in arrayCoins) {
+        if (i == currentConverCurrency) {
+          return arrayCoins[i];
         }
       }
     },
@@ -103,8 +115,8 @@ export default new Vuex.Store({
       const array = getters.getSelectedCoin.coinValue;
       const curConvert = getters.getConvertCurrency;
       const inputValue = getters.getInputValue;
-      for(let item in array) {
-        if(item == curConvert) {
+      for (let item in array) {
+        if (item == curConvert) {
           return inputValue * array[item];
         }
       }

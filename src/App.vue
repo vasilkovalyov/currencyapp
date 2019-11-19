@@ -6,16 +6,15 @@
         <span
           class="current-currency-msg d-block text-center mb-3"
         >Selected coin: {{selectedCoinName}}</span>
-        <form-input-currency></form-input-currency> 
+        <form-input-currency></form-input-currency>
         <type-currency-list></type-currency-list>
-        <p class="result-msg d-block text-center mb-3"> 
-          <span v-html='getInputValue' /> 
-          <span v-html='selectedCoinName' /> will be
-          <span v-html='getResult'/>  in
-          <span v-html='getCurrentConvertCurrency' />
+        <p class="result-msg d-block text-center mb-3">
+          <span v-html="getInputValue" />
+          <span v-html="selectedCoinName" /> will be
+          <span>{{getResult | filterOutput}}</span> in
+          <span v-html="getCurrentConvertCurrency" />
         </p>
-        {{selectedCoinName}}
-      </div> 
+      </div>
     </div>
   </section>
 </template>
@@ -25,22 +24,37 @@ import CurrencyPanelList from "./components/CurrencyPanelList";
 import FormInputCurrency from "./components/FormInputCurrency";
 import TypeCurrencyList from "./components/TypeCurrencysList";
 
-import { mapGetters} from "vuex"
+import { mapGetters, maxActions, mapActions } from "vuex";
 
 export default {
-  mounted() {
-    this.$store.dispatch("loadCoins");
-    this.$store.dispatch("setSelectedTypeCurrency");
+  methods: {
+    ...mapActions(["loadCoins", "setSelectedTypeCurrency"])
   },
-
+  mounted() {
+    this.loadCoins();
+    this.setSelectedTypeCurrency();
+    var numb = 123.23454;
+  },
+  filters: {
+    filterOutput(value) {
+      return parseFloat(value).toFixed(2);
+    }
+  },
   computed: {
-    ...mapGetters(['getAllCoins','getSelectedCoin','getCurrentConvertCurrency','getCurrentCurrencyValue', 'getInputValue', 'getResult']),
+    ...mapGetters([
+      "getAllCoins",
+      "getSelectedCoin",
+      "getCurrentConvertCurrency",
+      "getCurrentCurrencyValue",
+      "getInputValue",
+      "getResult"
+    ]),
 
     selectedCoinName() {
       return this.getSelectedCoin.coinName;
-    },
+    }
   },
-  
+
   components: {
     CurrencyPanelList,
     FormInputCurrency,

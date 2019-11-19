@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -21,8 +21,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setInputValue"]),
     changeValue() {
-      this.$store.commit('setInputValue', this.inputValue)
+      this.setInputValue(this.inputValue);
     }
   }
 };
@@ -35,8 +36,8 @@ export default {
     margin-right: 15px;
   }
 
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
 

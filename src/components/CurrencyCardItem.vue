@@ -8,9 +8,10 @@
         <span class="coin-name d-block text-center">{{ currency.name }}</span>
       </div>
       <div class="col-7">
-        <ul class="currency-list list-unstyled" >
-          <li v-for="(coin,key) in getAllCoins[currency.name]" :key='key'>
-            <b class="mr-3">{{key}}</b> <span>{{coin}}</span>
+        <ul class="currency-list list-unstyled">
+          <li v-for="(coin,key) in getAllCoins[currency.name]" :key="key">
+            <b class="mr-3">{{key}}</b>
+            <span>{{coin}}</span>
           </li>
         </ul>
       </div>
@@ -18,8 +19,7 @@
   </div>
 </template>
 <script>
-
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   props: {
@@ -32,13 +32,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["selectCoin"]),
+
     selectTypeCoin() {
-      this.$store.commit('selectCoin', this.coins)
+      this.selectCoin(this.coins);
     }
   },
 
   computed: {
-    ...mapGetters(['getAllCoins'])
+    ...mapGetters(["getAllCoins"])
   }
 };
 </script>
