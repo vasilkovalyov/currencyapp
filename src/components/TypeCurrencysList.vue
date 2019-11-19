@@ -2,7 +2,7 @@
   <ul class="type-currency-list text-uppercase list-unstyled d-flex justify-content-center">
     <li
       class="type-currency mx-4 p-2"
-      v-for="item in getCurrencysTypes"
+      v-for="item in getCurrencysType"
       :key="item"
       :class="{ active: currentItem === item }"
       @click="select(item)"
@@ -12,10 +12,12 @@
   </ul>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
-      currentItem: "UAH"
+      currentItem: this.$store.state.currentConverCoin
     };
   },
 
@@ -27,9 +29,7 @@ export default {
   },
 
   computed: {
-    getCurrencysTypes() {
-      return this.$store.getters.getCurrencysType;
-    }
+    ...mapGetters(['getCurrencysType'])
   }
 };
 </script>

@@ -4,12 +4,12 @@ import Vue from "vue";
 import "./plugins/bootstrap-vue";
 import App from "./App.vue";
 import store from "./store";
-import VueResource from "vue-resource";
-import Vuelidate from "vuelidate"
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Vue.config.productionTip = false;
 
-Vue.use(VueResource, Vuelidate);
+Vue.use(VueAxios,axios);
 
 new Vue({
   store,

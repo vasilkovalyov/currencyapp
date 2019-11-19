@@ -5,12 +5,16 @@
         <currency-panel-list></currency-panel-list>
         <span
           class="current-currency-msg d-block text-center mb-3"
-        >Selected coin: {{selectedCoin}}</span>
-        <form-input-currency @inputValue="inputValue = $event"></form-input-currency> 
+        >Selected coin: {{selectedCoinName}}</span>
+        <form-input-currency></form-input-currency> 
         <type-currency-list></type-currency-list>
-        <span
-          class="result-msg d-block text-center mb-3"
-        >{{inputValue}} {{selectedCoin}} will be {{inputValue * getCurrencyValue}} in {{getCurrentCurrency}}</span>
+        <p class="result-msg d-block text-center mb-3"> 
+          <span v-html='getInputValue' /> 
+          <span v-html='selectedCoinName' /> will be
+          <span v-html='getResult'/>  in
+          <span v-html='getCurrentConvertCurrency' />
+        </p>
+        {{selectedCoinName}}
       </div> 
     </div>
   </section>
@@ -21,34 +25,20 @@ import CurrencyPanelList from "./components/CurrencyPanelList";
 import FormInputCurrency from "./components/FormInputCurrency";
 import TypeCurrencyList from "./components/TypeCurrencysList";
 
-export default {
-  data() {
-    return {
-      inputValue: ""
-    };
-  },
+import { mapGetters} from "vuex"
 
-  async mounted() {
+export default {
+  mounted() {
     this.$store.dispatch("loadCoins");
     this.$store.dispatch("setSelectedTypeCurrency");
   },
 
   computed: {
-    allCoins() {
-      return this.$store.getters.getAllCoins;
-    },
+    ...mapGetters(['getAllCoins','getSelectedCoin','getCurrentConvertCurrency','getCurrentCurrencyValue', 'getInputValue', 'getResult']),
 
-    selectedCoin() {
-      return this.$store.getters.getSelectedCoin;
+    selectedCoinName() {
+      return this.getSelectedCoin.coinName;
     },
-
-    getCurrentCurrency() {
-      return this.$store.getters.getCurrentConvertCurrency;
-    },
-
-    getCurrencyValue() {
-      return this.$store.getters.getCurrentCurrencyValue;
-    }
   },
   
   components: {

@@ -17,13 +17,12 @@
 export default {
   data() {
     return {
-      inputValue: "",
-      text: ''
+      inputValue: ""
     };
   },
   methods: {
     changeValue() {
-      this.$emit("inputValue", this.inputValue);
+      this.$store.commit('setInputValue', this.inputValue)
     }
   }
 };

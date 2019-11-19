@@ -1,5 +1,5 @@
 <template>
-  <div class="currency-card-item p-2 mb-2 py-md-4 px-md-3 mb-md-4" @click="selectTypeCoin" :data-currency="currency.name">
+  <div class="currency-card-item p-2 mb-2 py-md-4 px-md-3 mb-md-4" @click="selectTypeCoin">
     <div class="row">
       <div class="col-5">
         <div class="image-holder text-center mb-2">
@@ -9,7 +9,7 @@
       </div>
       <div class="col-7">
         <ul class="currency-list list-unstyled" >
-          <li v-for="(coin,key) in allCoins[currency.name]" :key='key'>
+          <li v-for="(coin,key) in getAllCoins[currency.name]" :key='key'>
             <b class="mr-3">{{key}}</b> <span>{{coin}}</span>
           </li>
         </ul>
@@ -19,24 +19,26 @@
 </template>
 <script>
 
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     currency: {
       coinObject: Object
+    },
+    coins: {
+      type: Object
     }
   },
 
   methods: {
     selectTypeCoin() {
-      let coinType = this.$el.getAttribute('data-currency');
-      this.$store.commit('selectCoin', coinType)
+      this.$store.commit('selectCoin', this.coins)
     }
   },
 
   computed: {
-    allCoins() {
-      return this.$store.getters.getAllCoins;
-    }
+    ...mapGetters(['getAllCoins'])
   }
 };
 </script>

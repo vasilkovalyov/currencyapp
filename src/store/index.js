@@ -22,10 +22,12 @@ export default new Vuex.Store({
         name: "XRP"
       }
     ],
-    convertToCoinsList: ["UAH", "USD", "RUB"],
+    convertToCoinsList: ["USD", "UAH", "RUB"],
     currentConverCoin: 'UAH',
     coins: [],
-    selectedCoin: {}
+    selectedCoin: {},
+    convertResult: 0,
+    inputValue: ''
   },
 
   mutations: {
@@ -43,15 +45,26 @@ export default new Vuex.Store({
 
     selectConvertCoin(state, payload) {
       state.currentConverCoin = payload;
+    },
+
+    setInputValue(state, payload) {
+      state.inputValue = payload;
     }
   },
+
   actions: {
-    async loadCoins(state) {
-      const resCoin = await fetch("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD,UAH,RUB");
-      const coins = await resCoin.json();
-      this.coins = coins;
-      state.commit('setCoins', coins);
-      state.commit('selectCoin', 'BTC')
+    loadCoins(store) {
+      const arrayConvertCurrency = store.state.convertToCoinsList.join(',');
+      const arrayCryptoCoins = store.state.currencyCryptoList.map((item) => item.name).join(',');
+
+      Vue.axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms='+arrayCryptoCoins+'&tsyms='+arrayConvertCurrency)
+        .then(response => response.data)
+        .then(data => {
+          store.commit('setCoins', data);
+          const selectedObject = {coinName:Object.keys(store.getters.getAllCoins)[0], coinValue:Object.values                                     (store.getters.getAllCoins)[0]}
+          store.commit('selectCoin', selectedObject);
+        })
+        .catch(error => error);
     },
     setSelectedTypeCurrency(state) {
       state.commit('selectConvertCoin', 'UAH')
@@ -82,6 +95,22 @@ export default new Vuex.Store({
           return arrayCoins[i]
         }
       }
+    },
+    getConvertCurrency(state) {
+      return state.currentConverCoin;
+    },
+    getResult(state, getters) {
+      const array = getters.getSelectedCoin.coinValue;
+      const curConvert = getters.getConvertCurrency;
+      const inputValue = getters.getInputValue;
+      for(let item in array) {
+        if(item == curConvert) {
+          return inputValue * array[item];
+        }
+      }
+    },
+    getInputValue(state) {
+      return state.inputValue;
     }
   }
 });
